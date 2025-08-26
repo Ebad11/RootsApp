@@ -19,7 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("name");
         String email = getIntent().getStringExtra("email");
 
-        if(name != null) tvProfileName.setText("Name: " + name);
-        if(email != null) tvProfileEmail.setText("Email: " + email);
+        if (name != null) tvProfileName.setText("Name: " + name);
+        if (email != null) tvProfileEmail.setText("Email: " + email);
     }
 }

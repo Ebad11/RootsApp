@@ -9,7 +9,7 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
 
     TextView tvWelcome;
-    Button btnProfile;
+    Button btnProfile, btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,19 +18,27 @@ public class HomeActivity extends AppCompatActivity {
 
         tvWelcome = findViewById(R.id.tvWelcome);
         btnProfile = findViewById(R.id.btnProfile);
+        btnLogout = findViewById(R.id.btnLogout);
 
         String name = getIntent().getStringExtra("name");
         String email = getIntent().getStringExtra("email");
 
-        if(name != null) {
-            tvWelcome.setText("Welcome " + name + " to Roots!");
-        }
+        if (name != null && !name.isEmpty()) tvWelcome.setText("Welcome " + name + " to Roots!");
+        else if (email != null) tvWelcome.setText("Welcome " + email + " to Roots!");
 
         btnProfile.setOnClickListener(v -> {
             Intent i = new Intent(HomeActivity.this, ProfileActivity.class);
             i.putExtra("name", name);
             i.putExtra("email", email);
             startActivity(i);
+        });
+
+        btnLogout.setOnClickListener(v -> {
+            // clear task & go back to login
+            Intent i = new Intent(HomeActivity.this, MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+            finish();
         });
     }
 }
