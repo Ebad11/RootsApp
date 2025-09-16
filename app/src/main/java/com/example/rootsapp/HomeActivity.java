@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class HomeActivity extends AppCompatActivity {
 
     TextView tvWelcome;
@@ -34,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         btnLogout.setOnClickListener(v -> {
-            // clear task & go back to login
+            FirebaseAuth.getInstance().signOut();
             Intent i = new Intent(HomeActivity.this, MainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
