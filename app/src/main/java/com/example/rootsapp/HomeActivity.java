@@ -13,6 +13,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView tvWelcome;
     Button btnProfile, btnLogout;
 
+    Button btnAddPost, btnViewFeed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,14 @@ public class HomeActivity extends AppCompatActivity {
         tvWelcome = findViewById(R.id.tvWelcome);
         btnProfile = findViewById(R.id.btnProfile);
         btnLogout = findViewById(R.id.btnLogout);
+
+
+        btnAddPost = findViewById(R.id.btnAddPost);
+        btnViewFeed = findViewById(R.id.btnViewFeed);
+
+        btnAddPost.setOnClickListener(v -> startActivity(new Intent(this, AddPostActivity.class)));
+        btnViewFeed.setOnClickListener(v -> startActivity(new Intent(this, FeedActivity.class)));
+
 
         String name = getIntent().getStringExtra("name");
         String email = getIntent().getStringExtra("email");
