@@ -1,119 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F0FF"
-    android:padding="20dp">
+    android:background="@drawable/gradient_background"
+    android:padding="32dp"
+    tools:context=".MainActivity">
 
+    <!-- Logo at the top -->
+
+    <!-- Welcome text -->
     <ImageView
-        android:id="@+id/logoHeader"
-        android:layout_width="368dp"
-        android:layout_height="156dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/logo_roots"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Title Text -->
-
-    <!-- Form Container -->
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/formContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:background="@drawable/rounded_background"
-        android:clipToOutline="true"
-        android:elevation="8dp"
-        android:outlineProvider="background"
-        android:padding="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoHeader">
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:background="@drawable/input_rounded_purple"
-            android:hint="Email"
-            android:textColorHint="#B39DDB"
-            android:inputType="textEmailAddress"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#4B0082"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Password -->
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/input_rounded_purple"
-            android:hint="Password"
-            android:textColorHint="#B39DDB"
-            android:inputType="textPassword"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#4B0082"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etEmail" />
-
-        <!-- Login Button -->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="32dp"
-            android:background="#6A1B9A"
-            android:elevation="6dp"
-            android:letterSpacing="0.04"
-            android:stateListAnimator="@null"
-            android:text="Login"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPassword" />
-
-        <!-- Signup Prompt -->
-        <TextView
-            android:id="@+id/tvSignup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Don’t have an account? Signup"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnLogin" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:id="@+id/ivLogo"
+        android:layout_width="169dp"
+        android:layout_height="131dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/logo_roots" />
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:letterSpacing="0.05"
-        android:text="Login to Roots"
-        android:textColor="#4B0082"
+        android:layout_below="@id/ivLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="Welcome back to\nyour roots"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="28sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="83dp"
-        tools:layout_editor_absoluteY="176dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:lineSpacingExtra="2dp"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- Email label -->
+    <TextView
+        android:id="@+id/tvEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvWelcome"
+        android:layout_marginTop="56dp"
+        android:text="Enter your email"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif" />
+
+    <!-- Email input -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/tvEmailLabel"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/input_background"
+        android:hint="john.doe@example.com"
+        android:textColorHint="#80FFFFFF"
+        android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif" />
+
+    <!-- Password label -->
+    <TextView
+        android:id="@+id/tvPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etEmail"
+        android:layout_marginTop="28dp"
+        android:text="Enter your password"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif" />
+
+    <!-- Password input -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/tvPasswordLabel"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/input_background"
+        android:hint="••••••••"
+        android:textColorHint="#80FFFFFF"
+        android:inputType="textPassword"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif" />
+
+    <!-- Get Started / Login Button -->
+    <!-- Get Started / Login Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/etPassword"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/button_gradient"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- Sign up text -->
+    <TextView
+        android:id="@+id/tvSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Don't have an account? Sign up"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif" />
+
+</RelativeLayout>

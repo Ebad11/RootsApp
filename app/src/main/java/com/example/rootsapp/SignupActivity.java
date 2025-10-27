@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
@@ -38,6 +39,10 @@ public class SignupActivity extends AppCompatActivity {
         etPasswordSignup = findViewById(R.id.etPasswordSignup);
         etConfirmPassword = findViewById(R.id.confirmPassword); // make sure ID matches your XML
         btnSignup = findViewById(R.id.btnSignup);
+        TextView tvLogin = findViewById(R.id.tvLogin);
+        tvLogin.setOnClickListener(v -> {
+            finish(); // Go back to login activity
+        });
 
         btnSignup.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();

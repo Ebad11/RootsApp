@@ -1,145 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F0FF"
-    android:padding="20dp">
+    android:background="@drawable/gradient_background_signup"
+    android:fillViewport="true"
+    tools:context=".SignupActivity">
 
-    <ImageView
-        android:id="@+id/topHeader"
-        android:layout_width="372dp"
-        android:layout_height="149dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/logo_roots"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="32dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/formContainer"
-        android:layout_width="382dp"
-        android:layout_height="501dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="-60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_background"
-        android:clipToOutline="true"
-        android:elevation="8dp"
-        android:outlineProvider="background"
-        android:padding="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topHeader">
+        <!-- Logo at the top -->
+        <ImageView
+            android:id="@+id/ivLogoSignup"
+            android:layout_width="204dp"
+            android:layout_height="123dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/app_logo"
+            android:src="@drawable/logo_roots" />
+
+        <!-- Welcome text -->
+        <TextView
+            android:id="@+id/tvWelcomeSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivLogoSignup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:text="Join your roots"
+            android:textAlignment="center"
+            android:textColor="#E0D4F7"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvWelcomeSignup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="Create your account to get started"
+            android:textAlignment="center"
+            android:textColor="#B8A8D8"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Name label -->
+
+        <!-- Name input -->
+        <TextView
+            android:id="@+id/tvNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSubtitle"
+            android:layout_marginTop="29dp"
+            android:fontFamily="sans-serif"
+            android:text="Enter your name"
+            android:textColor="#E0D4F7"
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/etName"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:background="@drawable/input_rounded_purple"
-            android:hint="Full Name"
-            android:textColorHint="#B39DDB"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/tvNameLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background_signup"
+            android:hint="John Doe"
+            android:textColorHint="#80E0D4F7"
             android:inputType="textPersonName"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="#4B0082"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#E0D4F7"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Email label -->
+        <TextView
+            android:id="@+id/tvEmailSignupLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etName"
+            android:layout_marginTop="24dp"
+            android:text="Enter your email"
+            android:textColor="#E0D4F7"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Email input -->
         <EditText
             android:id="@+id/etEmailSignup"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/input_rounded_purple"
-            android:hint="Email"
-            android:textColorHint="#B39DDB"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/tvEmailSignupLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background_signup"
+            android:hint="john.doe@example.com"
+            android:textColorHint="#80E0D4F7"
             android:inputType="textEmailAddress"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="#4B0082"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etName" />
+            android:textColor="#E0D4F7"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Password label -->
+        <TextView
+            android:id="@+id/tvPasswordSignupLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etEmailSignup"
+            android:layout_marginTop="24dp"
+            android:text="Enter your password"
+            android:textColor="#E0D4F7"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Password input -->
         <EditText
             android:id="@+id/etPasswordSignup"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="44dp"
-            android:background="@drawable/input_rounded_purple"
-            android:hint="Password (min 6)"
-            android:textColorHint="#B39DDB"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/tvPasswordSignupLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background_signup"
+            android:hint="••••••••"
+            android:textColorHint="#80E0D4F7"
             android:inputType="textPassword"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="#4B0082"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etEmailSignup" />
+            android:textColor="#E0D4F7"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Confirm Password label -->
+        <TextView
+            android:id="@+id/tvConfirmPasswordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etPasswordSignup"
+            android:layout_marginTop="24dp"
+            android:text="Confirm your password"
+            android:textColor="#E0D4F7"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Confirm Password input -->
         <EditText
             android:id="@+id/confirmPassword"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/input_rounded_purple"
-            android:hint="Confirm Password"
-            android:textColorHint="#B39DDB"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/tvConfirmPasswordLabel"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background_signup"
+            android:hint="••••••••"
+            android:textColorHint="#80E0D4F7"
             android:inputType="textPassword"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="#4B0082"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPasswordSignup" />
+            android:textColor="#E0D4F7"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif" />
 
-        <Button
-            android:id="@+id/btnSignup"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="44dp"
-            android:background="#6A1B9A"
-            android:elevation="6dp"
-            android:letterSpacing="0.04"
-            android:stateListAnimator="@null"
-            android:text="Signup"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/confirmPassword" />
+        <!-- Signup Button -->
+        <FrameLayout
+            android:id="@+id/btnSignupFrame"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@id/confirmPassword"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_gradient">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btnSignup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:text="Create Account"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
+        </FrameLayout>
 
-    <TextView
-        android:id="@+id/tvSignup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:letterSpacing="0.05"
-        android:text="Signup for Roots"
-        android:textColor="#4B0082"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/formContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topHeader"
-        app:layout_constraintVertical_bias="0.396" />
+        <!-- Already have account text -->
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnSignupFrame"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="32dp"
+            android:text="Already have an account? Log in"
+            android:textColor="#E0D4F7"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
+</ScrollView>
