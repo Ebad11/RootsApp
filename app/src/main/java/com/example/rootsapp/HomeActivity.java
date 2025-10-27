@@ -13,7 +13,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView tvWelcome;
     Button btnProfile, btnLogout;
 
-    Button btnAddPost, btnViewFeed;
+    Button btnAddPost, btnViewFeed, btnViewMaps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         tvWelcome = findViewById(R.id.tvWelcome);
         btnProfile = findViewById(R.id.btnProfile);
         btnLogout = findViewById(R.id.btnLogout);
+        btnViewMaps = findViewById(R.id.btnViewMaps);
 
 
         btnAddPost = findViewById(R.id.btnAddPost);
@@ -29,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
 
         btnAddPost.setOnClickListener(v -> startActivity(new Intent(this, AddPostActivity.class)));
         btnViewFeed.setOnClickListener(v -> startActivity(new Intent(this, FeedActivity.class)));
+        btnViewMaps.setOnClickListener(v -> startActivity(new Intent(this, MapSimpleActivity.class)));
 
 
         String name = getIntent().getStringExtra("name");

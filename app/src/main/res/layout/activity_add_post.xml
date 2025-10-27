@@ -1,19 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp"
+    tools:context=".AddPostActivity">
 
     <EditText
         android:id="@+id/etPostContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="What's on your mind?" />
+        android:hint="Share your memory..."
+        android:minLines="3"
+        android:gravity="top" />
+
+    <Button
+        android:id="@+id/btnAutoLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📍 Use My Location"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnChooseLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🗺️ Choose on Map"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Post" />
-
+        android:text="Post Memory"
+        android:layout_marginTop="20dp" />
 </LinearLayout>
