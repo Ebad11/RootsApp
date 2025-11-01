@@ -47,4 +47,19 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.navigation:navigation-fragment:2.7.7")
+    implementation("androidx.navigation:navigation-ui:2.7.7")
+    // Image loading
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+
+// OkHttp for HTTP requests
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+
+// JSON parsing
+    implementation("org.json:json:20230227")
+
 }
