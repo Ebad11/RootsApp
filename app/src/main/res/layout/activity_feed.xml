@@ -3,16 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#F8F5FC">
+
+    <!-- Header with gradient -->
+    <RelativeLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:background="@drawable/feed_header_gradient"
+        android:elevation="4dp"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/ivAppLogo"
+            android:layout_width="66dp"
+            android:layout_height="49dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_logo"
+            android:src="@drawable/logo_roots" />
+
+        <TextView
+            android:id="@+id/tvAppTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="84dp"
+            android:layout_toEndOf="@+id/ivAppLogo"
+            android:fontFamily="sans-serif-medium"
+            android:text="Roots Feed"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <!-- RecyclerView for posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/headerLayout"
         android:layout_above="@id/bottomNav"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

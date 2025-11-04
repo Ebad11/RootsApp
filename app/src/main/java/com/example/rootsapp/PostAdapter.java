@@ -40,7 +40,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.tvUserEmail.setText(post.getUserEmail());
         holder.tvContent.setText(post.getContent());
+        // In your PostAdapter's onBindViewHolder method, add this:
 
+        TextView tvUserAvatar = holder.itemView.findViewById(R.id.tvUserAvatar);
+        TextView tvUserEmail = holder.itemView.findViewById(R.id.tvUserEmail);
+
+        String email = post.getUserEmail();
+        if (email != null && !email.isEmpty()) {
+            tvUserEmail.setText(email);
+            // Set first letter of email as avatar
+            tvUserAvatar.setText(email.substring(0, 1).toUpperCase());
+        } else {
+            tvUserEmail.setText("Anonymous");
+            tvUserAvatar.setText("A");
+        }
         // Format timestamp
         String date = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
                 .format(new Date(post.getTimestamp()));

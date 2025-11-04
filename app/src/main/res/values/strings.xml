@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">RootsApp</string>
+    <string name="post_image">Post Image</string>
+    <string name="app_logo">App Logo</string>
 </resources>

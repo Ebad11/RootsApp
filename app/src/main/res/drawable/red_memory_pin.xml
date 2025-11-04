@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow -->
+    <item
+        android:top="2dp"
+        android:left="2dp">
+        <shape android:shape="oval">
+            <solid android:color="#40000000" />
+            <size android:width="28dp" android:height="28dp" />
+        </shape>
+    </item>
+
+    <!-- Red pin circle -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#E74C3C" />
+            <stroke android:width="3dp" android:color="#C0392B" />
+            <size android:width="28dp" android:height="28dp" />
+        </shape>
+    </item>
+
+    <!-- Inner white dot -->
+    <item
+        android:top="9dp"
+        android:bottom="9dp"
+        android:left="9dp"
+        android:right="9dp">
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+</layer-list>
