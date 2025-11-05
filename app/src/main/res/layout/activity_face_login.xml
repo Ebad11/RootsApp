@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayoutLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/cameraContainerLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:progress="0"
+        android:max="100"
+        android:indeterminate="false"
+        android:progressTint="@android:color/holo_blue_light" />
+
+    <TextView
+        android:id="@+id/tvStatusLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Look at the camera to login"
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

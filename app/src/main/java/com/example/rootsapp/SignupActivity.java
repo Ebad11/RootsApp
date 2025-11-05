@@ -71,7 +71,13 @@ public class SignupActivity extends AppCompatActivity {
                                 db.collection("users").document(uid).set(map)
                                         .addOnSuccessListener(aVoid -> {
                                             Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
-                                            Intent i = new Intent(SignupActivity.this, HomeActivity.class);
+//                                            Intent i = new Intent(SignupActivity.this, HomeActivity.class);
+//                                            i.putExtra("name", name);
+//                                            i.putExtra("email", email);
+//                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            startActivity(i);
+//                                            finish();
+                                            Intent i = new Intent(SignupActivity.this, FaceCaptureActivity.class);
                                             i.putExtra("name", name);
                                             i.putExtra("email", email);
                                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
