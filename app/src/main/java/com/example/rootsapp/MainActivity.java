@@ -1,7 +1,16 @@
 package com.example.rootsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -17,28 +26,35 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final int REQ_POST_NOTIF = 222;
 
     EditText etEmail, etPassword;
     Button btnLogin;
     TextView tvSignup;
-    LinearLayout loginContainer; // To show/hide login UI
+    LinearLayout loginContainer;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
+    PermissionHelper permissionHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Log.d(TAG, "onCreate called");
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        permissionHelper = new PermissionHelper(this);
+
+        // Request all permissions explicitly
+        permissionHelper.requestAllPermissions();
 
         // Link UI
         etEmail = findViewById(R.id.etEmail);
@@ -54,17 +70,44 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> loginUser());
 
-        // ===== FACE LOGIN CHECK =====
+        // Face login check
         boolean faceLoginFailed = getIntent().getBooleanExtra("faceLoginFailed", false);
-
         if (!faceLoginFailed) {
-            // Only check face login if it hasn’t failed before
             checkFaceLogin();
         } else {
-            Log.d(TAG, "Face login previously failed. Showing manual login UI.");
             showLoginUI();
         }
 
+        // Request POST_NOTIFICATIONS permission on Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_POST_NOTIF);
+            }
+        }
+
+        // Create channel
+        NotificationHelper.createChannelIfNeeded(this);
+
+        // If already logged in, schedule notifications immediately
+        if (mAuth.getCurrentUser() != null) {
+            scheduleSuggestionWorkers();
+        }
+    }
+
+    private void scheduleSuggestionWorkers() {
+        Log.d(TAG, "Scheduling suggestion workers (15-min + immediate)");
+
+        PeriodicWorkRequest periodicRequest = new PeriodicWorkRequest.Builder(SuggestionWorker.class, 15, TimeUnit.MINUTES)
+                .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "roots_suggestion_periodic",
+                ExistingPeriodicWorkPolicy.KEEP,
+                periodicRequest
+        );
+
+        OneTimeWorkRequest now = new OneTimeWorkRequest.Builder(SuggestionWorker.class).build();
+        WorkManager.getInstance(this).enqueue(now);
     }
 
     private void checkFaceLogin() {
@@ -76,44 +119,33 @@ public class MainActivity extends AppCompatActivity {
 
             db.collection("users").document(uid).get()
                     .addOnSuccessListener(documentSnapshot -> {
-                        String name = null;
-                        String faceUrl = null;
+                        String name = documentSnapshot.getString("name");
+                        String faceUrl = documentSnapshot.getString("faceUrl");
 
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            name = documentSnapshot.getString("name");
-                            faceUrl = documentSnapshot.getString("faceUrl");
-                        }
-
-                        Log.d(TAG, "Fetched user profile. Name: " + name + ", faceUrl: " + faceUrl+ "uid bhi dekh: "+uid+" docs bhi: "+documentSnapshot);
+                        Log.d(TAG, "Fetched user profile: " + name + ", faceUrl: " + faceUrl);
 
                         if (faceUrl != null && !faceUrl.isEmpty()) {
-                            // Face is registered → launch FaceLoginActivity
-                            Log.d(TAG, "Launching FaceLoginActivity for UID: " + uid);
                             Intent i = new Intent(MainActivity.this, FaceLoginActivity.class);
                             i.putExtra("name", name);
                             i.putExtra("email", user.getEmail());
-                            i.putExtra("uid", uid); // pass UID to load registered face
+                            i.putExtra("uid", uid);
                             startActivity(i);
                             finish();
                         } else {
-                            // No face registered → normal login
-                            Log.d(TAG, "No face registered. Showing manual login UI.");
-                            showLoginUI();
+                            launchHomeActivity(name, user.getEmail());
                         }
                     })
                     .addOnFailureListener(e -> {
                         Log.e(TAG, "Failed to fetch user profile", e);
-                        // fallback to manual login
                         showLoginUI();
                     });
         } else {
-            Log.d(TAG, "No signed-in user. Showing manual login UI.");
             showLoginUI();
         }
     }
 
     private void showLoginUI() {
-        loginContainer.setVisibility(View.VISIBLE); // Make login fields visible
+        loginContainer.setVisibility(View.VISIBLE);
     }
 
     private void loginUser() {
@@ -143,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
                         if (user != null) {
                             Log.d(TAG, "Manual login successful. UID: " + user.getUid());
                             fetchUserProfile(user);
-                        } else {
-                            Log.w(TAG, "Manual login succeeded but user is null");
-                            Toast.makeText(this, "Login succeeded but user is null", Toast.LENGTH_SHORT).show();
+
+                            // Schedule notifications after login
+                            scheduleSuggestionWorkers();
                         }
                     } else {
                         String msg = task.getException() != null ? task.getException().getMessage() : "Authentication failed";
@@ -159,19 +191,12 @@ public class MainActivity extends AppCompatActivity {
         String uid = user.getUid();
         db.collection("users").document(uid).get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    String name = null;
-                    String faceUrl = null;
+                    String name = documentSnapshot.getString("name");
+                    String faceUrl = documentSnapshot.getString("faceUrl");
 
-                    if (documentSnapshot != null && documentSnapshot.exists()) {
-                        name = documentSnapshot.getString("name");
-                        faceUrl = documentSnapshot.getString("faceUrl");
-                    }
-
-                    Log.d(TAG, "Fetched user profile post-login. Name: " + name + ", faceUrl: " + faceUrl+" docs bhi: "+documentSnapshot+ " uid bhi dekh: "+uid);
+                    Log.d(TAG, "Fetched profile post-login: " + name + ", faceUrl: " + faceUrl);
 
                     if (faceUrl != null && !faceUrl.isEmpty()) {
-                        // Face is registered → launch FaceLoginActivity
-                        Log.d(TAG, "Launching FaceLoginActivity post-login for UID: " + uid);
                         Intent i = new Intent(MainActivity.this, FaceLoginActivity.class);
                         i.putExtra("name", name);
                         i.putExtra("email", user.getEmail());
@@ -179,21 +204,26 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     } else {
-                        // No face registered → normal login
-                        Log.d(TAG, "No face registered post-login. Launching HomeActivity.");
-                        Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                        i.putExtra("name", name);
-                        i.putExtra("email", user.getEmail());
-                        startActivity(i);
-                        finish();
+                        launchHomeActivity(name, user.getEmail());
                     }
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to fetch user profile post-login", e);
-                    Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                    i.putExtra("email", user.getEmail());
-                    startActivity(i);
-                    finish();
+                    launchHomeActivity(null, user.getEmail());
                 });
+    }
+
+    private void launchHomeActivity(String name, String email) {
+        Intent i = new Intent(MainActivity.this, HomeActivity.class);
+        i.putExtra("name", name);
+        i.putExtra("email", email);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionHelper.handlePermissionResult(requestCode, grantResults);
     }
 }

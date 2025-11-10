@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.speech.SpeechRecognizer;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -106,8 +108,6 @@ public class AddPostActivity extends AppCompatActivity {
         ivRemoveImage = findViewById(R.id.ivRemoveImage);
         progressBar = findViewById(R.id.progressBar);
         bottomNav = findViewById(R.id.bottomNav);
-
-        // Upload button already in XML
         btnUpload = findViewById(R.id.btnUpload);
         btnUpload.setVisibility(View.GONE);
 
@@ -141,6 +141,13 @@ public class AddPostActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // === NEW: Focus EditText and show keyboard ===
+        etPostContent.requestFocus();
+        etPostContent.postDelayed(() -> {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) imm.showSoftInput(etPostContent, InputMethodManager.SHOW_IMPLICIT);
+        }, 300);
 
         // Listeners
         btnPickImage.setOnClickListener(v -> openGallery());
@@ -274,57 +281,6 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     /** ================= Firestore Upload ================== **/
-//    private void uploadPost(String content) {
-//        if(content==null || content.isEmpty()){
-//            Toast.makeText(this,"Nothing to upload",Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        btnUpload.setEnabled(false);
-//        progressBar.setVisibility(View.VISIBLE);
-//
-//        new Thread(() -> {
-//            try{
-//                String imageUrl = null;
-//                if(imageUri!=null){
-//                    File f = new File(imageUri.getPath());
-//                    Map uploadResult = cloudinary.uploader().upload(f, ObjectUtils.emptyMap());
-//                    imageUrl = (String) uploadResult.get("secure_url");
-//                }
-//
-//                String id = UUID.randomUUID().toString();
-//                Map<String,Object> post = new HashMap<>();
-//                post.put("id",id);
-//                post.put("userEmail",auth.getCurrentUser().getEmail());
-//                post.put("content",content);
-//                post.put("timestamp",System.currentTimeMillis());
-//                post.put("latitude",selectedLat);
-//                post.put("longitude",selectedLon);
-//                post.put("imageUrl",imageUrl);
-//
-//                db.collection("posts").document(id).set(post)
-//                        .addOnSuccessListener(a -> runOnUiThread(() -> {
-//                            Toast.makeText(AddPostActivity.this,"Memory posted!",Toast.LENGTH_SHORT).show();
-//                            progressBar.setVisibility(View.GONE);
-//                            btnUpload.setEnabled(true);
-//                            finish();
-//                        }))
-//                        .addOnFailureListener(e -> runOnUiThread(() -> {
-//                            Toast.makeText(AddPostActivity.this,"Upload failed: "+e.getMessage(),Toast.LENGTH_SHORT).show();
-//                            progressBar.setVisibility(View.GONE);
-//                            btnUpload.setEnabled(true);
-//                        }));
-//
-//            } catch (Exception e){
-//                e.printStackTrace();
-//                runOnUiThread(() -> {
-//                    Toast.makeText(AddPostActivity.this,"Upload failed: "+e.getMessage(),Toast.LENGTH_LONG).show();
-//                    progressBar.setVisibility(View.GONE);
-//                    btnUpload.setEnabled(true);
-//                });
-//            }
-//        }).start();
-//    }
     private void uploadPost(String content) {
         if(content==null || content.isEmpty()){
             Toast.makeText(this,"Nothing to upload",Toast.LENGTH_SHORT).show();
@@ -338,7 +294,6 @@ public class AddPostActivity extends AppCompatActivity {
             try {
                 String imageUrl = null;
                 if(imageUri != null){
-                    // Convert Uri to bytes
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
@@ -381,7 +336,6 @@ public class AddPostActivity extends AppCompatActivity {
             }
         }).start();
     }
-
 
     /** ================= Gallery / Camera / Location / Voice ================== **/
     private void openGallery(){

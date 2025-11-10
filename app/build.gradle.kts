@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.camera:camera-camera2:1.3.1")
     implementation("androidx.camera:camera-lifecycle:1.3.1")
     implementation("androidx.camera:camera-view:1.3.1")
+    implementation("androidx.work:work-runtime:2.8.1")
     // Image loading
 //    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 
